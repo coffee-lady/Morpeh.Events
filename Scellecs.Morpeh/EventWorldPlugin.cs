@@ -4,14 +4,8 @@ using UnityEngine.Scripting;
 namespace Scellecs.Morpeh
 {
     [Preserve]
-    internal sealed class EventWorldPlugin : IWorldPlugin
+    public sealed class EventWorldPlugin : IWorldPlugin
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        public static void RuntimeInitialize()
-        {
-            WorldExtensions.AddWorldPlugin(new EventWorldPlugin());
-        }
-
         [Preserve]
         public void Initialize(World world)
         {
