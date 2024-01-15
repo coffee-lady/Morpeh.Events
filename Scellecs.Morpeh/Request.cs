@@ -17,23 +17,11 @@ namespace Scellecs.Morpeh
     {
         internal readonly FastList<TData> changes = new FastList<TData>();
 
-#if MORPEH_DEBUG
-        internal int lastConsumeFrame;
-#endif
         internal int lastConsumedIndex;
 
         [PublicAPI]
         public void Publish(in TData request, bool allowNextFrame = false)
         {
-#if MORPEH_DEBUG
-            if (!allowNextFrame && lastConsumeFrame == Time.frameCount)
-            {
-                MLogger.LogError(
-                    $"Request<{typeof(TData).Name}> was already consumed in the current frame. " +
-                    "Reorder systems or set allowNextFrame parameter");
-            }
-#endif
-
             changes.Add(request);
         }
 
@@ -47,10 +35,6 @@ namespace Scellecs.Morpeh
         [PublicAPI]
         public Consumer Consume()
         {
-#if MORPEH_DEBUG
-            lastConsumeFrame = Time.frameCount;
-#endif
-
             Consumer consumer;
             consumer.request = this;
             return consumer;
